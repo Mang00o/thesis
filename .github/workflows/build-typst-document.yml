@@ -1,0 +1,38 @@
+name: Build Typst document
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_typst_documents:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build Typst document
+        uses: lvignoli/typst-action@main
+        with:
+          source_file: main.typ
+          output_file: main.pdf
+
+      - name: Check if PDF was created
+        run: |
+          if [ -f main.pdf ]; then
+            echo "PDF found, preparing to commit and push."
+          else
+            echo "No PDF found, skipping commit and push."
+            exit 0
+          fi
+
+      - name: Commit and push PDF to master
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add main.pdf
+          git commit -m "Add compiled PDF [skip ci]"
+          git push https://github.com/${{ github.repository }}.git HEAD:master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
