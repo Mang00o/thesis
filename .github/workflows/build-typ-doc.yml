@@ -16,19 +16,26 @@ jobs:
         uses: lvignoli/typst-action@main
         with:
           source_file: main.typ  # Il file sorgente Typst da compilare
+          output_file: main.pdf  # Salva il PDF direttamente nella root del progetto
+
+      - name: Check if PDF was created
+        run: |
+          if [ -f main.pdf ]; then
+            echo "PDF found, preparing to commit and push."
+          else
+            echo "No PDF found, skipping commit and push."
+            exit 0  # Termina senza errore se il PDF non esiste
+          fi
 
       - name: Commit and push PDF to master
         run: |
           # Configura git
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          # Aggiungi il PDF generato (assumiamo che il PDF venga generato in un percorso predefinito come `output/main.pdf`)
-          git add output/main.pdf
-
+          # Aggiungi il PDF generato
+          git add main.pdf
           # Commit dei cambiamenti
           git commit -m "Add compiled PDF [skip ci]"
-
           # Pusha il PDF sul branch master
           git push origin master
         env:
