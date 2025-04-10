@@ -18,18 +18,12 @@ jobs:
         with:
           source_file: main.typ
       
-      - name: Fetch all remote branches
-        run: git fetch --all  # Recupera tutti i branch remoti
-      
-      - name: Checkout master branch
-        run: git checkout origin/master
-      
       - name: Commit and push PDF to master
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add main.pdf
           git commit -m "Add compiled PDF [skip ci]"
-          git push origin master
+          git push origin develop
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
