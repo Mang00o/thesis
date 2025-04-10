@@ -1,7 +1,0 @@
-# File temporanei
-*.typ~ 
-*.tmp
-
-# Cartelle di output
-build/
-output/
