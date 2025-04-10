@@ -18,6 +18,9 @@ jobs:
         with:
           source_file: main.typ
       
+      - name: Fetch all remote branches
+        run: git fetch --all  # Recupera tutti i branch remoti
+      
       - name: Checkout master branch
         run: git checkout origin/master
       
