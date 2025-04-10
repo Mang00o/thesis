@@ -2,7 +2,7 @@ name: Build Typst document
 on:
   push:
     branches:
-      - develop  # Triggera l'azione quando c'è un push su `develop`
+      - master # Triggera l'azione quando c'è un push su `develop`
 
 jobs:
   build_typst_documents:
